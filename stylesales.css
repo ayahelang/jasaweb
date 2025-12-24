@@ -1,0 +1,248 @@
+/* ===============================
+   BASE
+================================ */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f9fafb;
+    color: #111827;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 960px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+h1,
+h2 {
+    margin-bottom: 20px;
+}
+
+/* ===============================
+   HERO
+================================ */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #111827, #1f2933);
+    color: #fff;
+}
+
+.hero p {
+    max-width: 700px;
+    margin: auto;
+    font-size: 18px;
+}
+
+/* ===============================
+   BUTTON BASE
+================================ */
+.btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    background: #22c55e;
+    transition: transform .3s ease, opacity .3s ease;
+}
+
+.btn.secondary {
+    background: #0ea5e9;
+    margin-left: 12px;
+}
+
+/* ===============================
+   SECTIONS
+================================ */
+section {
+    margin: 100px 0;
+}
+
+.box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .05);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* ===============================
+   HIGHLIGHT BOX
+================================ */
+.highlight-box {
+    position: relative;
+    padding: 50px 40px;
+    background: #000;
+    color: #fff;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+}
+
+.highlight-box::before {
+    content: "";
+    position: absolute;
+    inset: 20px auto 20px 0;
+    width: 6px;
+    background: linear-gradient(180deg, #22c55e, #16a34a);
+}
+
+.highlight-box p {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* ===============================
+   CTA & FOOTER
+================================ */
+.cta {
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    background: #111827;
+    color: #9ca3af;
+}
+
+/* ===============================
+   ANIMATIONS
+================================ */
+.animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: transform .9s ease, opacity .9s ease;
+}
+
+.animate.show {
+    opacity: 1;
+    transform: none;
+}
+
+.fade-left {
+    transform: translateX(-60px);
+}
+
+.fade-right {
+    transform: translateX(60px);
+}
+
+.zoom-in {
+    transform: scale(.9);
+}
+
+.show.fade-left,
+.show.fade-right {
+    transform: translateX(0);
+}
+
+.show.zoom-in {
+    transform: scale(1);
+}
+
+/* ===============================
+   FLOATING BUTTONS (OPTIMIZED)
+================================ */
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    z-index: 99999;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+
+    opacity: 0;
+    transform: translateY(20px);
+
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, .25);
+
+    transition:
+        opacity .4s ease,
+        transform .4s ease,
+        box-shadow .3s ease;
+}
+
+.floating-btn.show {
+    opacity: .45;
+    transform: translateY(0);
+}
+
+.floating-btn:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+/* AUTOPLAY — BLUE */
+.floating-autoplay {
+    left: 20px;
+    background: rgba(0, 110, 255, .85);
+    color: #111;
+}
+
+.floating-autoplay:hover {
+    box-shadow: 0 0 20px rgba(0, 110, 255, .9);
+    color: #fff;
+}
+
+/* WHATSAPP — GREEN */
+.floating-whatsapp {
+    right: 20px;
+    background: rgba(37, 211, 102, .85);
+    text-decoration: none;
+    color: #111;
+}
+
+.floating-whatsapp:hover {
+    box-shadow: 0 0 20px rgba(37, 211, 102, .9);
+    color: #fff;
+}
+
+/* ===============================
+   MOBILE
+================================ */
+@media (max-width:600px) {
+    .floating-btn {
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+}
+
+/* ===============================
+   TEXT TO SPEECH WORD HIGHLIGHT
+================================ */
+.tts-word {
+    transition:
+        font-size 0.3s ease,
+        color 0.3s ease,
+        text-shadow 0.3s ease,
+        /*    background 0.3s ease;
+    padding: 2px 3px;
+    border-radius: 4px;
+    */
+}
+
+.tts-word.active {
+    font-size: 1.3em;
+    color: #e30d14;
+    /*   background: rgb(243, 240, 240); */
+    text-shadow:
+        0 0 6px rgba(255, 255, 255, 0.976),
+        0 0 12px rgba(255, 255, 255, 0.969),
+        0 0 20px rgba(199, 213, 204, 0.968);
+}
