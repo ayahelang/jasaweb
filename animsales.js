@@ -6,10 +6,11 @@
 // =========================================
 const COUNTDOWN_START = 5; // ⬅️ TAMBAHKAN INI
 const IS_MOBILE = window.matchMedia("(max-width: 768px)").matches;
-const READ_SPEED_WPM = IS_MOBILE ? 6 : 7;
-const MIN_PAUSE = IS_MOBILE ? 2200 : 2100;
-const MAX_PAUSE = IS_MOBILE ? 8000 : 7500;
-const SCROLL_DURATION = IS_MOBILE ? 1300 : 1250;
+const READ_SPEED_WPM = IS_MOBILE ? 6 : 8;
+const MIN_PAUSE = IS_MOBILE ? 1700 : 2200;
+const MAX_PAUSE = IS_MOBILE ? 5200 : 8000;
+const SCROLL_DURATION = IS_MOBILE ? 850 : 1200;
+
 
 // =========================================
 // STATE
@@ -39,10 +40,15 @@ async function speakText(text, container) {
 
         const u = new SpeechSynthesisUtterance(text);
         u.lang = "id-ID";
-        u.rate = 1.15;
+        u.rate = IS_MOBILE ? 0.95 : 1.1;
 
         let index = 0;
-        const intervalTime = Math.max(60, 60000 / READ_SPEED_WPM / 18);
+        const baseInterval = 60000 / READ_SPEED_WPM / 18;
+
+        const intervalTime = Math.max(
+            50,
+            baseInterval * (IS_MOBILE ? 0.65 : 1)
+        );
 
         const highlightInterval = setInterval(() => {
             if (index > 0) words[index - 1]?.classList.remove("active");
