@@ -209,6 +209,7 @@ async function runPresentation() {
     }
 
     isRunning = false;
+    showQuickMenu();
 }
 
 // =========================================
@@ -283,3 +284,51 @@ const observer = new IntersectionObserver(
 );
 
 document.querySelectorAll(".animate").forEach(el => observer.observe(el));
+
+// =========================================
+// SHOW QUICK MENU AFTER PRESENTATION
+// =========================================
+function showQuickMenu() {
+    const menu = document.getElementById("quickMenu");
+    if (!menu) return;
+
+    menu.classList.add("show");
+    startQuickMenuAttention();
+}
+
+// =========================================
+// QUICK MENU ATTENTION LOGIC
+// =========================================
+let quickMenuTimer = null;
+
+function startQuickMenuAttention() {
+    const menu = document.getElementById("quickMenu");
+    if (!menu) return;
+
+    clearTimeout(quickMenuTimer);
+
+    quickMenuTimer = setTimeout(() => {
+        menu.classList.add("attention");
+    }, 2000);
+}
+
+function stopQuickMenuAttention() {
+    const menu = document.getElementById("quickMenu");
+    if (!menu) return;
+
+    menu.classList.remove("attention");
+    clearTimeout(quickMenuTimer);
+}
+
+// Hover detection
+document.addEventListener("mouseover", e => {
+    if (e.target.closest("#quickMenu")) {
+        stopQuickMenuAttention();
+    }
+});
+
+document.addEventListener("mouseout", e => {
+    if (e.target.closest("#quickMenu")) {
+        startQuickMenuAttention();
+    }
+});

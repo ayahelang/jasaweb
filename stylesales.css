@@ -246,3 +246,75 @@ footer {
         0 0 12px rgba(255, 255, 255, 0.969),
         0 0 20px rgba(199, 213, 204, 0.968);
 }
+/* ===============================
+   VERTICAL QUICK MENU
+================================ */
+.quick-menu {
+    position: fixed;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+
+    width: 38px;
+    /* ± lebar jari telunjuk */
+    padding: 10px 4px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    background: rgba(11, 228, 130, 0.442);
+    backdrop-filter: blur(8px);
+    border-radius: 999px;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+    z-index: 9999;
+}
+
+.quick-menu.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.quick-menu a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+    text-decoration: none;
+
+    opacity: 0.75;
+    transition:
+        opacity .3s ease,
+        transform .3s ease;
+}
+
+.quick-menu a:hover {
+    opacity: 1;
+    transform: scale(1.17);
+}
+
+/* ===============================
+   ATTENTION BLINK (SUBTLE)
+================================ */
+@keyframes subtleBlink {
+    0% {
+        opacity: 0.95;
+    }
+
+    50% {
+        opacity: 0.75;
+    }
+
+    100% {
+        opacity: 0.95;
+    }
+}
+
+.quick-menu.attention {
+    animation: subtleBlink 1.8s ease-in-out infinite;
+}
+
