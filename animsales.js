@@ -332,3 +332,27 @@ document.addEventListener("mouseout", e => {
         startQuickMenuAttention();
     }
 });
+
+// =========================================
+// FAST SMOOTH LOCAL NAVIGATION (EASE IN OUT)
+// =========================================
+document.addEventListener("click", e => {
+    const link = e.target.closest("a[href^='#']");
+    if (!link) return;
+
+    const id = link.getAttribute("href").slice(1);
+    if (!id) return;
+
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    e.preventDefault();
+
+    const y =
+        target.getBoundingClientRect().top +
+        window.pageYOffset -
+        innerHeight / 2 +
+        target.offsetHeight / 2;
+
+    smoothScrollTo(y, 700); // ⬅️ cepat tapi elegan
+});
