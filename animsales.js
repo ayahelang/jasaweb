@@ -1,16 +1,12 @@
 // =========================================
 // CONFIG
 // =========================================
-// =========================================
-// CONFIG
-// =========================================
 const COUNTDOWN_START = 5; // ⬅️ TAMBAHKAN INI
 const IS_MOBILE = window.matchMedia("(max-width: 768px)").matches;
 const READ_SPEED_WPM = IS_MOBILE ? 6 : 8;
 const MIN_PAUSE = IS_MOBILE ? 1700 : 2200;
 const MAX_PAUSE = IS_MOBILE ? 5200 : 8000;
 const SCROLL_DURATION = IS_MOBILE ? 850 : 1200;
-
 
 // =========================================
 // STATE
@@ -19,6 +15,7 @@ let soundEnabled = false;
 let countdownInterval = null;
 let isRunning = false;
 let stopSignal = false;
+let highlightInterval = null;
 
 // =========================================
 // CACHE DOM (lebih ringan)
@@ -52,16 +49,17 @@ async function speakText(text, container) {
             baseInterval * (IS_MOBILE ? 0.75 : 1)
         );
 
-        const highlightInterval = setInterval(() => {
+        highlightInterval = setInterval(() => {
+            if (!soundEnabled) return;
+
             if (index > 0) words[index - 1]?.classList.remove("active");
-            if (words[index]) {
-                words[index].classList.add("active");
-            }
+            if (words[index]) words[index].classList.add("active");
+
             index++;
             if (index >= words.length) {
                 clearInterval(highlightInterval);
             }
-        }, intervalTime);
+        }, intervalTime);        
 
         u.onend = () => {
             clearInterval(highlightInterval);
@@ -190,7 +188,7 @@ async function runPresentation() {
     isRunning = true;
 
     for (const section of SECTIONS) {
-        if (stopSignal) return;
+        if (stopSignal) break;
 
         const text = section.innerText;
         const target = centerY(section);
@@ -198,26 +196,30 @@ async function runPresentation() {
         smoothScrollTo(target, SCROLL_DURATION);
         await delay(SCROLL_DURATION + 300);
 
+        wrapWords(section);
+
         if (soundEnabled) {
             await speakText(text, section);
         } else {
-            await delay(readTime(countWords(text)));
+            await animateHighlightSilently(section);
         }
-    }
-
-    speechSynthesis.cancel();
-
-    if (FOOTER) {
-        smoothScrollTo(
-            FOOTER.getBoundingClientRect().top +
-            pageYOffset -
-            innerHeight / 2,
-            1200
-        );
     }
 
     isRunning = false;
     showQuickMenu();
+}
+
+async function animateHighlightSilently(container) {
+    const words = Array.from(container.querySelectorAll(".tts-word"));
+    if (!words.length) return;
+
+    const interval = Math.max(60, 60000 / READ_SPEED_WPM / 18);
+
+    for (const w of words) {
+        w.classList.add("active");
+        await delay(interval);
+        w.classList.remove("active");
+    }
 }
 
 // =========================================
@@ -386,13 +388,10 @@ function toggleSound() {
 
     speaker.textContent = isMuted ? "🔇" : "🔊";
 
-    // visual feedback
-    speaker.style.opacity = ".9";
-
-    // fade out then stay as mute
-    setTimeout(() => {
-        speaker.style.opacity = ".75";
-    }, 600);
+    if (isMuted) {
+        speechSynthesis.cancel();
+        clearInterval(highlightInterval);
+    }
 }
 
 speaker?.addEventListener("click", toggleSound);
