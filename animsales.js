@@ -33,7 +33,9 @@ async function speakText(text, container) {
     return new Promise(async resolve => {
         if (!soundEnabled || !text || !container) return resolve();
 
-        speechSynthesis.cancel();
+        if (speechSynthesis.speaking) {
+            speechSynthesis.cancel();
+        }        
 
         wrapWords(container);
         const words = Array.from(container.querySelectorAll(".tts-word"));
@@ -249,7 +251,8 @@ function restartPresentation(withSound) {
 // =========================================
 function startCountdown() {
     const el = document.getElementById("countdown");
-    let c = el ? parseInt(el.textContent) || 5 : 5;
+    let c = COUNTDOWN_START;
+    if (el) el.textContent = c;
 
     countdownInterval = setInterval(() => {
         c--;
@@ -259,6 +262,7 @@ function startCountdown() {
             clearInterval(countdownInterval);
             startPresentation(false);
             document.getElementById("startPresentation")?.remove();
+            showSpeakerToggle();
         }
     }, 1000);
 }
@@ -362,3 +366,65 @@ document.addEventListener("click", e => {
 
     smoothScrollTo(y, 700); // ⬅️ cepat tapi elegan
 });
+
+// =========================================
+// SPEAKER TOGGLE LOGIC
+// =========================================
+const speaker = document.getElementById("speakerToggle");
+let isMuted = true;
+
+function showSpeakerToggle() {
+    if (!speaker) return;
+
+    speaker.classList.remove("hidden");
+    requestAnimationFrame(() => speaker.classList.add("show"));
+}
+
+function toggleSound() {
+    isMuted = !isMuted;
+    soundEnabled = !isMuted;
+
+    speaker.textContent = isMuted ? "🔇" : "🔊";
+
+    // visual feedback
+    speaker.style.opacity = ".9";
+
+    // fade out then stay as mute
+    setTimeout(() => {
+        speaker.style.opacity = ".75";
+    }, 600);
+}
+
+speaker?.addEventListener("click", toggleSound);
+
+// =========================================
+// DRAGGABLE ELEMENT HELPER
+// =========================================
+function makeDraggable(el) {
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    el.addEventListener("mousedown", e => {
+        isDragging = true;
+        offsetX = e.clientX - el.offsetLeft;
+        offsetY = e.clientY - el.offsetTop;
+        el.style.cursor = "grabbing";
+    });
+
+    document.addEventListener("mousemove", e => {
+        if (!isDragging) return;
+        el.style.left = `${e.clientX - offsetX}px`;
+        el.style.top = `${e.clientY - offsetY}px`;
+        el.style.transform = "none";
+    });
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+        el.style.cursor = "grab";
+    });
+}
+
+makeDraggable(speaker);
+makeDraggable(document.getElementById("quickMenu"));
+

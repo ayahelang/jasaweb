@@ -318,3 +318,42 @@ footer {
     animation: subtleBlink 1.8s ease-in-out infinite;
 }
 
+/* ===============================
+   FLOATING SPEAKER TOGGLE
+================================ */
+.speaker-toggle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 18px 20px;
+    border-radius: 999px;
+
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    font-size: 22px;
+
+    cursor: grab;
+    user-select: none;
+
+    opacity: 0;
+    transition:
+        opacity .6s ease,
+        transform .6s ease;
+
+    z-index: 10000;
+}
+
+.speaker-toggle.show {
+    opacity: .75;
+}
+
+.speaker-toggle:hover,
+.speaker-toggle:active {
+    opacity: .9;
+}
+
+.speaker-toggle.hidden {
+    pointer-events: none;
+}
