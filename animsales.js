@@ -47,7 +47,7 @@ async function speakText(text, container) {
 
         const intervalTime = Math.max(
             50,
-            baseInterval * (IS_MOBILE ? 0.65 : 1)
+            baseInterval * (IS_MOBILE ? 0.75 : 1)
         );
 
         const highlightInterval = setInterval(() => {
