@@ -6,10 +6,10 @@
 // =========================================
 const COUNTDOWN_START = 5; // ⬅️ TAMBAHKAN INI
 const IS_MOBILE = window.matchMedia("(max-width: 768px)").matches;
-const READ_SPEED_WPM = IS_MOBILE ? 6 : 5;
-const MIN_PAUSE = IS_MOBILE ? 2200 : 1800;
-const MAX_PAUSE = IS_MOBILE ? 8000 : 6000;
-const SCROLL_DURATION = IS_MOBILE ? 1300 : 1000;
+const READ_SPEED_WPM = IS_MOBILE ? 6 : 7;
+const MIN_PAUSE = IS_MOBILE ? 2200 : 2100;
+const MAX_PAUSE = IS_MOBILE ? 8000 : 7500;
+const SCROLL_DURATION = IS_MOBILE ? 1300 : 1250;
 
 // =========================================
 // STATE
